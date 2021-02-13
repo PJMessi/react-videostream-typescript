@@ -8,8 +8,8 @@ const AppRoutes = () => {
     return <>
         <Router>
             <Switch>
-                <PublicRoute path="/login" exact component={Login} />
-                <PrivateRoute path="/" exact component={Dashboard} />
+                <PublicRoute path="/login" exact component={ Login } />
+                <PrivateRoute path="/" exact component={ Dashboard } />
             </Switch>
         </Router>
     </>

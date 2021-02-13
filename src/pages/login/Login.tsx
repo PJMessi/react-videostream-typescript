@@ -3,7 +3,7 @@ import { useAuthContext } from "../../contexts/auth.context";
 import { login } from '../../actions/auth.action';
 import { useHistory } from "react-router-dom";
 
-const Login = (props:any) => {
+const Login = () => {
     const { authDispatch } = useAuthContext();
     const history = useHistory();
 
