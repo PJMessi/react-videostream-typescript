@@ -11,8 +11,10 @@ const AppRoutes = () => {
                 <PublicRoute path="/login" exact >
                     <Login/>
                 </PublicRoute>
-                
-                <PrivateRoute path="/" exact component={ Dashboard } />
+
+                <PrivateRoute path="/" exact >
+                    <Dashboard/>
+                </PrivateRoute>
             </Switch>
         </Router>
     </>
