@@ -3,18 +3,14 @@ import { Route, RouteComponentProps, RouteProps } from 'react-router-dom';
 import AuthLayout from '../components/layouts/auth.layout';
 
 // type PublicRouteProp = { component: FC<RouteComponentProps>} & RouteProps
-type PublicRouteProp = { component: () => JSX.Element } & RouteProps
+type PublicRouteProp = { children: JSX.Element } & RouteProps
 
-const PublicRoute = ({ component: Component, ...rest }: PublicRouteProp) => {
+const PublicRoute = ({ children, ...rest }: PublicRouteProp) => {
     return <>
         <AuthLayout>
-            <Route {...rest} 
-                render={
-                    (routeProps) => {
-                        return <Component {...routeProps} />
-                    }
-                }
-            />
+            <Route {...rest}>
+                {children}
+            </Route>
         </AuthLayout>
     </>
 }
