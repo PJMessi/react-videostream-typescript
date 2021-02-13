@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useAuthContext } from "../../contexts/auth.context";
 import { login } from '../../actions/auth.action';
 import { useHistory } from "react-router-dom";
 
-const Login: FC = (props:any) => {
+const Login = (props:any) => {
     const { authDispatch } = useAuthContext();
     const history = useHistory();
 

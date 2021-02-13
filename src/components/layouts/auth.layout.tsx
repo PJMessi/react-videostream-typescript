@@ -1,7 +1,7 @@
-const AuthLayout: React.FC = () => {
+const AuthLayout = ({children}: {children: JSX.Element}) => {
     return <>
         <h1>Auth Layout</h1>
-        
+        {children}
     </>;
 }
 

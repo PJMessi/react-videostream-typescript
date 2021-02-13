@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
 import { useAuthContext } from "../contexts/auth.context";
+import MainLayout from '../components/layouts/main.layout';
 
 type PrivateRouteProps = { component: FC<RouteComponentProps>} & RouteProps
 
@@ -12,7 +13,11 @@ const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
         <Route {...rest}
             render={
                 (routeProps) => {
-                    if (authState.user) return <Component {...routeProps} />
+                    if (authState.user) {
+                        return <MainLayout>
+                            <Component {...routeProps} />
+                        </MainLayout>
+                    }
                     return <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }}/>
                 }
             }
