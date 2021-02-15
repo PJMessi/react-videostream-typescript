@@ -1,9 +1,7 @@
-import { FC } from "react";
-import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 import { useAuthContext } from "../contexts/auth.context";
 import MainLayout from '../components/layouts/main.layout';
 
-// type PrivateRouteProps = { component: FC<RouteComponentProps>} & RouteProps
 type PrivateRouteProps = { children: JSX.Element} & RouteProps
 
 const PrivateRoute = ({ children, ...rest }: PrivateRouteProps) => {

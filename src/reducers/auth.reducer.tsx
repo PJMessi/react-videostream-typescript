@@ -1,6 +1,6 @@
 export const initialAuthState: AuthState = {
     user: null,
-    token: null,
+    token: localStorage.getItem('authToken') || null,
     loading: false,
     error: null
 }

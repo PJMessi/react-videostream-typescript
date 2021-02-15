@@ -3,6 +3,7 @@ import PrivateRoute from './PrivateRoute';
 import Login from '../pages/login/Login';
 import Dashboard from '../pages/dashboard/Dashboard';
 import PublicRoute from './PublicRoute';
+import Video from '../pages/video/Video';
 
 const AppRoutes = () => {
     return <>
@@ -14,6 +15,10 @@ const AppRoutes = () => {
 
                 <PrivateRoute path="/" exact >
                     <Dashboard/>
+                </PrivateRoute>
+
+                <PrivateRoute path="/videos/:videoId" exact >
+                    <Video/>
                 </PrivateRoute>
             </Switch>
         </Router>
