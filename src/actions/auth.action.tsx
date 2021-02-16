@@ -5,10 +5,17 @@ import { AuthActions, User } from '../reducers/auth.reducer'
 const API_BASE_URI = 'http://localhost:5000';
 
 /**
- * Calls API to login user.
- * If success: dispatches LOGIN_SUCCESS with user and token data | Saves token in local storage | sets
- *      default axios header.
- * If error: dispatches LOGIN_ERROR with error data | throws error.
+ * Logs out user.
+ * @param dispatch 
+ */
+export const logout = async (dispatch: Dispatch<AuthActions>) => {
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('authToken');
+    delete axios.defaults.headers.common["Authorization"];
+}
+
+/**
+ * Logs in user.
  * @param dispatch 
  * @param credential 
  */
