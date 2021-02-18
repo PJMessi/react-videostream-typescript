@@ -4,6 +4,7 @@ import Login from '../pages/login/Login';
 import Dashboard from '../pages/dashboard/Dashboard';
 import PublicRoute from './PublicRoute';
 import Video from '../pages/video/Video';
+import Register from '../pages/register/Register';
 
 const AppRoutes = () => {
     return <>
@@ -11,6 +12,10 @@ const AppRoutes = () => {
             <Switch>
                 <PublicRoute path="/login" exact >
                     <Login/>
+                </PublicRoute>
+
+                <PublicRoute path="/register" exact >
+                    <Register/>
                 </PublicRoute>
 
                 <PrivateRoute path="/" exact >

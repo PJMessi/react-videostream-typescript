@@ -24,17 +24,12 @@ export const login = async (dispatch: Dispatch<AuthActions>, credential: { email
 
     try {
         const loginAPI = `${API_BASE_URI}/auth/login`
-
-        const loginResponse = await axios.post(loginAPI, {
-            email: credential.email, password: credential.password
-        });
+        const loginResponse = await axios.post(loginAPI, credential);
 
         const { token, user }: { token: string, user: User } = loginResponse.data.data;
-
         dispatch({type: 'LOGIN_SUCCESS', payload: { token, user } });
 
         localStorage.setItem('authToken', token);
-
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     } catch (error) {
@@ -53,15 +48,39 @@ export const fetchProfile = async (dispatch: Dispatch<AuthActions>) => {
 
     try {
         const profileFetchAPI = `${API_BASE_URI}/auth/profile`
-
         const fetchProfileResponse = await axios.get(profileFetchAPI);
 
         const { user }: { user: User } = fetchProfileResponse.data.data;
-
         dispatch({type: 'FETCH_PROFILE_SUCCESS', payload: { user } });
 
     } catch (error) {
         dispatch({type: 'FETCH_PROFILE_ERROR', error: error.response.data });
+        throw error;
+    }
+}
+
+type RegisterData = { name: string, email: string, password: string, password_confirmation: string };
+
+/**
+ * Registers user.
+ * @param dispatch 
+ * @param registerData 
+ */
+export const register = async (dispatch: Dispatch<AuthActions>, registerData: RegisterData) => {
+    dispatch({ type: 'REGISTER_REQUEST' });
+
+    try {
+        const registerAPI = `${API_BASE_URI}/auth/register`;
+        const registerResponse = await axios.post(registerAPI, registerData);
+
+        const { token, user }: { token: string, user: User } = registerResponse.data.data;
+        dispatch({type: 'REGISTER_SUCCESS', payload: { token, user } });
+
+        localStorage.setItem('authToken', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    } catch (error) {
+        dispatch({ type: 'REGISTER_ERROR', error: error.response.data });
         throw error;
     }
 }

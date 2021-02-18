@@ -55,7 +55,27 @@ export const authReducer = (state: AuthState, action: AuthActions): AuthState =>
                 loading: false,
                 error: action.error
             }
+
+        case 'REGISTER_REQUEST':
+            return {
+                ...state,
+                loading: true
+            }
+
+        case 'REGISTER_SUCCESS':
+            return {
+                ...state,
+                loading: false,
+                token: action.payload.token,
+                user: action.payload.user
+            }
             
+        case 'REGISTER_ERROR':
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            }
     }
 }
 
@@ -82,11 +102,17 @@ export type AuthActions =
     | FETCH_PROFILE_REQUEST
     | FETCH_PROFILE_SUCCESS
     | FETCH_PROFILE_ERROR
+    | REGISTER_REQUEST
+    | REGISTER_SUCCESS
+    | REGISTER_ERROR
 
-type LOGIN_REQUEST = { type: 'LOGIN_REQUEST' }
-type LOGIN_SUCCESS = { type: 'LOGIN_SUCCESS', payload: { token: string, user: User } }
-type LOGIN_ERROR = { type: 'LOGIN_ERROR', error: object }
-type LOGOUT = { type: 'LOGOUT' }
-type FETCH_PROFILE_REQUEST = { type: 'FETCH_PROFILE_REQUEST' }
-type FETCH_PROFILE_SUCCESS = { type: 'FETCH_PROFILE_SUCCESS', payload: { user: User } }
-type FETCH_PROFILE_ERROR = { type: 'FETCH_PROFILE_ERROR', error: object }
+type LOGIN_REQUEST = { type: 'LOGIN_REQUEST' };
+type LOGIN_SUCCESS = { type: 'LOGIN_SUCCESS', payload: { token: string, user: User } };
+type LOGIN_ERROR = { type: 'LOGIN_ERROR', error: object };
+type LOGOUT = { type: 'LOGOUT' };
+type FETCH_PROFILE_REQUEST = { type: 'FETCH_PROFILE_REQUEST' };
+type FETCH_PROFILE_SUCCESS = { type: 'FETCH_PROFILE_SUCCESS', payload: { user: User } };
+type FETCH_PROFILE_ERROR = { type: 'FETCH_PROFILE_ERROR', error: object };
+type REGISTER_REQUEST = { type: 'REGISTER_REQUEST' };
+type REGISTER_SUCCESS = { type: 'REGISTER_SUCCESS', payload: { token: string, user: User } };
+type REGISTER_ERROR = { type: 'REGISTER_ERROR', error: object };

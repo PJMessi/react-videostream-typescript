@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useAuthContext } from "../../contexts/auth.context";
 import { login } from '../../actions/auth.action';
 import { useHistory } from "react-router-dom";
@@ -10,7 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState("pjmessi2504@gmail.com");
     const [password, setPassword] = useState("password");
 
-    const loginUser = (e:any) => {
+    const handleLoginFormSubmit = (e: FormEvent) => {
         e.preventDefault();
         login(authDispatch, {email, password})
         .then(() => {
@@ -22,7 +22,7 @@ const Login = () => {
     return <>
         <h2>Login Page</h2>
 
-        <form onSubmit={(e) => {loginUser(e)}}>
+        <form onSubmit={(e) => {handleLoginFormSubmit(e)}}>
             <input 
                 type="email" 
                 name="email" 
