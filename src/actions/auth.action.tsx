@@ -42,3 +42,26 @@ export const login = async (dispatch: Dispatch<AuthActions>, credential: { email
         throw error;
     }
 }
+
+/**
+ * Fetches profile.
+ * @param dispatch 
+ * @param credential 
+ */
+export const fetchProfile = async (dispatch: Dispatch<AuthActions>) => {
+    dispatch({ type: 'FETCH_PROFILE_REQUEST' });
+
+    try {
+        const profileFetchAPI = `${API_BASE_URI}/auth/profile`
+
+        const fetchProfileResponse = await axios.get(profileFetchAPI);
+
+        const { user }: { user: User } = fetchProfileResponse.data.data;
+
+        dispatch({type: 'FETCH_PROFILE_SUCCESS', payload: { user } });
+
+    } catch (error) {
+        dispatch({type: 'FETCH_PROFILE_ERROR', error: error.response.data });
+        throw error;
+    }
+}

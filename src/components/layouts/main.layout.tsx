@@ -3,7 +3,7 @@ import { logout } from '../../actions/auth.action';
 import { useHistory } from "react-router-dom";
 
 const MainLayout = ({children}: {children: JSX.Element}) => {
-    const { authDispatch } = useAuthContext();
+    const { authState, authDispatch } = useAuthContext();
     const history = useHistory();
 
     const clickLogoutButton = () => {
@@ -13,6 +13,7 @@ const MainLayout = ({children}: {children: JSX.Element}) => {
 
     return <>
         <h1>Main Layout</h1>
+        <span>{authState.user?.name}</span>
 
         {children}
 
