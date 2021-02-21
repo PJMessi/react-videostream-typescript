@@ -1,28 +1,33 @@
 import { createContext, useContext, useReducer } from "react";
-import { initialAuthState, authReducer, AuthActions } from '../reducers/auth.reducer';
+import { initialAuthState, authReducer } from "../reducers/auth/auth.reducer";
+import { AuthActions } from "../reducers/auth/authReducerTypes";
 
-const AuthContext = createContext<{
-    authState: typeof initialAuthState;
-    authDispatch: (action: AuthActions) => void;
-}>({
-    authState: initialAuthState,
-    authDispatch: () => { }
+const AuthContext = createContext<AuthContextType>({
+  authState: initialAuthState,
+  authDispatch: () => {},
 });
 
-export const useAuthContext = () => {
-    const context = useContext(AuthContext);
-    // if (context === undefined) throw new Error('This component is not wrapped with Auth Context.');
-    return context;
-}
+export const useAuthContext = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  // if (context === undefined) throw new Error('This component is not wrapped with Auth Context.');
+  return context;
+};
 
-type AuthContextProviderProp = {
-    children: JSX.Element
-}
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element => {
+  const [state, dispatch] = useReducer(authReducer, initialAuthState);
 
-export const AuthContextProvider = ({ children }: AuthContextProviderProp) => {
-    const [state, dispatch] = useReducer(authReducer, initialAuthState);
-
-    return <AuthContext.Provider value={{ authState: state, authDispatch: dispatch }}>
-        {children}
+  return (
+    <AuthContext.Provider value={{ authState: state, authDispatch: dispatch }}>
+      {children}
     </AuthContext.Provider>
-}
+  );
+};
+
+type AuthContextType = {
+  authState: typeof initialAuthState;
+  authDispatch: (action: AuthActions) => void;
+};
