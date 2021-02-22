@@ -9,26 +9,30 @@ const Register = (): JSX.Element => {
   const history = useHistory();
   const { authDispatch } = useAuthContext();
 
-  const { register, handleSubmit, watch, errors } = useForm<{
+  type ResisterFormAttributes = {
     email: string;
     password: string;
     name: string;
     passwordConfirmation: string;
-  }>();
+  };
 
-  const handleRegisterFormSubmit = (data: {
-    name: string;
-    email: string;
-    password: string;
-    passwordConfirmation: string;
-  }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    errors,
+  } = useForm<ResisterFormAttributes>();
+
+  const handleRegisterFormSubmit = (data: ResisterFormAttributes) => {
     registerUser(authDispatch, data).then(() => {
       history.push("/");
     });
   };
 
-  const confirmPassword = (password: string): boolean | string => {
-    return password === watch("password") || "Password does not match.";
+  const confirmPassword = (passwordConfirmation: string): true | string => {
+    return (
+      passwordConfirmation === watch("password") || "Password does not match."
+    );
   };
 
   return (

@@ -9,12 +9,14 @@ const Login = (): JSX.Element => {
   const { authDispatch } = useAuthContext();
   const history = useHistory();
 
-  const { register, handleSubmit, errors } = useForm<{
+  type LoginFormAttributes = {
     email: string;
     password: string;
-  }>();
+  };
 
-  const handleLoginFormSubmit = (data: { email: string; password: string }) => {
+  const { register, handleSubmit, errors } = useForm<LoginFormAttributes>();
+
+  const handleLoginFormSubmit = (data: LoginFormAttributes) => {
     login(authDispatch, data).then(() => {
       history.push("/");
     });
