@@ -38,6 +38,7 @@ module.exports = {
     ],
     "react/react-in-jsx-scope": "off",
     "react/button-has-type": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "no-underscore-dangle":  ["error", { "allow": ["__typename"] }]
   },
 };

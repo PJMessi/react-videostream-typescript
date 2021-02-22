@@ -1,6 +1,12 @@
 import axios from "axios";
 import { Dispatch } from "react";
-import { AuthActions, User } from "../reducers/auth/authReducerTypes";
+import {
+  AuthActions,
+  User,
+  LoginValidationError,
+  RegisterValidationError,
+} from "../reducers/auth/authReducerTypes";
+import { APIError } from "../reducers/reducerTyptes";
 
 const API_BASE_URI = "http://localhost:5000";
 
@@ -38,7 +44,11 @@ export const login = async (
     localStorage.setItem("authToken", token);
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } catch (error) {
-    dispatch({ type: "LoginError", error: error.response.data });
+    const errorData: APIError | LoginValidationError = {
+      message: error.response.data.message,
+      errors: error.response.data.errors,
+    };
+    dispatch({ type: "LoginError", error: errorData });
     throw error;
   }
 };
@@ -60,7 +70,10 @@ export const fetchProfile = async (
     const { user }: { user: User } = fetchProfileResponse.data.data;
     dispatch({ type: "FetchProfileSuccess", payload: { user } });
   } catch (error) {
-    dispatch({ type: "FetchProfileError", error: error.response.data });
+    const errorData: APIError = {
+      message: error.response.data.message,
+    };
+    dispatch({ type: "FetchProfileError", error: errorData });
     throw error;
   }
 };
@@ -69,7 +82,7 @@ type RegisterData = {
   name: string;
   email: string;
   password: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
 };
 
 /**
@@ -77,7 +90,7 @@ type RegisterData = {
  * @param dispatch
  * @param registerData
  */
-export const register = async (
+export const registerUser = async (
   dispatch: Dispatch<AuthActions>,
   registerData: RegisterData
 ): Promise<void> => {
@@ -85,7 +98,12 @@ export const register = async (
 
   try {
     const registerAPI = `${API_BASE_URI}/auth/register`;
-    const registerResponse = await axios.post(registerAPI, registerData);
+    const registerResponse = await axios.post(registerAPI, {
+      name: registerData.name,
+      email: registerData.email,
+      password: registerData.password,
+      password_confirmation: registerData.passwordConfirmation,
+    });
 
     const {
       token,
@@ -96,7 +114,11 @@ export const register = async (
     localStorage.setItem("authToken", token);
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } catch (error) {
-    dispatch({ type: "RegisterError", error: error.response.data });
+    const errorData: APIError | RegisterValidationError = {
+      message: error.response.data.message,
+      errors: error.response.data.errors,
+    };
+    dispatch({ type: "RegisterError", error: errorData });
     throw error;
   }
 };

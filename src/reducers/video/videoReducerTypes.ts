@@ -59,7 +59,8 @@ type FetchVideoRequest = { type: "FetchVideoRequest" };
 type FetchVideoSuccess = { type: "FetchVideoSuccess" };
 type FetchVideoError = { type: "FetchVideoError"; error: APIError };
 
-type FetchVideosValidationError = {
+export type FetchVideosValidationError = {
+  __typename: "FetchVideosValidationError";
   message: string;
   errors: {
     limit?: string[];

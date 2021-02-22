@@ -1,10 +1,12 @@
 import axios from "axios";
 import { Dispatch } from "react";
+import { APIError } from "../reducers/reducerTyptes";
 import {
   VideoPaginationFilter,
   VideoActions,
   PaginatedVideo,
   Video,
+  FetchVideosValidationError,
 } from "../reducers/video/videoReducerTypes";
 
 const API_BASE_URI = "http://localhost:5000";
@@ -28,7 +30,11 @@ export const fetchVideos = async (
       payload: { paginatedVideos, paginationFilter },
     });
   } catch (error) {
-    dispatch({ type: "FetchVideosError", error: error.response.data });
+    const errorData: APIError | FetchVideosValidationError = {
+      message: error.response.data.message,
+      errors: error.response.data.errors,
+    };
+    dispatch({ type: "FetchVideosError", error: errorData });
     throw error;
   }
 };
@@ -48,7 +54,10 @@ export const fetchVideo = async (
 
     return video;
   } catch (error) {
-    dispatch({ type: "FetchVideoError", error: error.response.data });
+    const errorData: APIError = {
+      message: error.response.data.message,
+    };
+    dispatch({ type: "FetchVideoError", error: errorData });
     throw error;
   }
 };

@@ -1,10 +1,30 @@
 import { APIError } from "../reducerTyptes";
 
+export type LoginValidationError = {
+  __typename: "LoginValidationError";
+  message: string;
+  errors: {
+    email?: string[];
+    password?: string[];
+  };
+};
+
+export type RegisterValidationError = {
+  __typename: "RegisterValidationError";
+  message: string;
+  errors: {
+    email?: string[];
+    password?: string[];
+    password_confirmation?: string[];
+    name?: string[];
+  };
+};
+
 export type AuthState = {
   user: User | null;
   token: string | null;
   loading: boolean;
-  error: APIError | RegisterValidationError | LoginValidationError | null;
+  error: null | RegisterValidationError | APIError | LoginValidationError;
 };
 
 export type User = {
@@ -51,22 +71,4 @@ type RegisterSuccess = {
 type RegisterError = {
   type: "RegisterError";
   error: APIError | RegisterValidationError;
-};
-
-type LoginValidationError = {
-  message: string;
-  errors: {
-    email?: string[];
-    password?: string[];
-  };
-};
-
-type RegisterValidationError = {
-  message: string;
-  errors: {
-    email?: string[];
-    password?: string[];
-    password_confirmation?: string[];
-    name?: string[];
-  };
 };

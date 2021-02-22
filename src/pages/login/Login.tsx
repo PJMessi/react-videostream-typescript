@@ -1,18 +1,21 @@
-import { FormEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 import { useAuthContext } from "../../contexts/auth.context";
 import { login } from "../../actions/auth.action";
+import ValidationErrorMessage from "../../components/validation/errorMessage";
 
 const Login = (): JSX.Element => {
   const { authDispatch } = useAuthContext();
   const history = useHistory();
 
-  const [email, setEmail] = useState("pjmessi2504@gmail.com");
-  const [password, setPassword] = useState("password");
+  const { register, handleSubmit, errors } = useForm<{
+    email: string;
+    password: string;
+  }>();
 
-  const handleLoginFormSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    login(authDispatch, { email, password }).then(() => {
+  const handleLoginFormSubmit = (data: { email: string; password: string }) => {
+    login(authDispatch, data).then(() => {
       history.push("/");
     });
   };
@@ -21,33 +24,48 @@ const Login = (): JSX.Element => {
     <>
       <h2>Login Page</h2>
 
-      <form
-        onSubmit={(e) => {
-          handleLoginFormSubmit(e);
-        }}
-      >
-        <input
-          type="email"
-          name="email"
-          id="loginEmail"
-          placeholder="Enter email address"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <br />
+      <form onSubmit={handleSubmit(handleLoginFormSubmit)}>
+        <div className="formElement">
+          <label htmlFor="loginEmail">
+            Email <br />
+            <input
+              type="email"
+              name="email"
+              id="loginEmail"
+              ref={register({ required: "Please enter your email" })}
+            />
+            <br />
+            <ErrorMessage
+              errors={errors}
+              name="email"
+              render={({ message }) => (
+                <ValidationErrorMessage message={message} />
+              )}
+            />
+          </label>
+        </div>
 
-        <input
-          type="password"
-          name="password"
-          id="loginPassword"
-          placeholder="Enter password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
+        <div className="formElement">
+          <label htmlFor="loginPassword">
+            Password <br />
+            <input
+              type="password"
+              name="password"
+              id="loginPassword"
+              ref={register({ required: "Please enter your password" })}
+            />
+            <br />
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ message }) => (
+                <ValidationErrorMessage message={message} />
+              )}
+            />
+          </label>
+        </div>
 
-        <br />
-
-        <input type="submit" value="Login" />
+        <input type="submit" />
       </form>
     </>
   );
